@@ -10,8 +10,9 @@
     <script src="keys.js"></script>
     <script>
     var ncmb = new NCMB(appKey, clientKey);
-    var UTdata = ncmb.DataStore("UpdateTest");
+    var UTdata  = ncmb.DataStore("UpdateTest");
     var key = "score";
+    
     function enterData() {
       var uTdata = new UTdata();
       var value = parseInt($("#data").val());
@@ -19,33 +20,46 @@
       .save()
       .then(function(results){
         $("#display").removeClass();
+        $("#message").removeClass();
         $("#display").addClass("bg-success");
-        $("#display").html("enter success");
+        $("#message").addClass("bg-success");
+        $("#display").html("登録成功！(｀･ω･´)");
+        $("#message").html("(・∀・)ｲｲﾈ!!");
       })
       .catch(function(results){
         $("#display").removeClass();
+        $("#message").removeClass();
         $("#display").addClass("bg-warning");
-        $("#display").html("enter fail");
+        $("#message").addClass("bg-warning");
+        $("#display").html("登録失敗・・・(´･ω･`)");
+        $("#message").html("(・∀・)ダメ！");
       })
     }
+
     function fetchAll() {
       UTdata.fetchAll()
       .then(function(results){
         var msg="";
         for(var i=0; i<results.length; i++){
-          msg += results[i].get(key) + "<br>";
+          msg += results[i].get(key)+ "<br>";
         }
         $("#display").removeClass();
-        $("#display").addClass("text-light");
+        $("#message").removeClass();
         $("#display").addClass("bg-primary");
+        $("#message").addClass("bg-primary");
+        $("#message").html("データを表示するよ！(｀･ω･´)");
         $("#display").html(msg);
       })
       .catch(function(error){
         $("#display").removeClass();
+        $("#message").removeClass();
         $("#display").addClass("bg-warning");
-        $("#display").html("delete fail:" + JSON.stringify(error));
+        $("#message").addClass("bg-warning");
+        $("#display").html("エラーや・・・( ´･ω･`):" + JSON.stringify(error));
+        $("#message").html("(・∀・)ダメ！");
       })
     }
+
     function deleteData() {
       UTdata.fetch()
       .then(function(uTdata){
@@ -53,16 +67,22 @@
      })
      .then(function(results){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-success");
-     $("#display").html("delete success");  
+     $("#message").addClass("bg-success");
+     $("#display").html("削除成功！(｀･ω･´)");  
+     $("#message").html("(・∀・)ｲｲﾈ!!");
      })
      .catch(function(error){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-warning");
-     $("#display").html("delete fail:" + JSON.stringify(error));
+     $("#message").addClass("bg-warning");
+     $("#display").html("削除失敗や・・・( ´･ω･`):" + JSON.stringify(error));
+     $("#message").html("(・∀・)ダメ！");
      })
-
     }
+
     function updateData() {
       UTdata.fetch()
      .then(function(uTdata){
@@ -72,28 +92,43 @@
      })
      .then(function(results){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-success");
-     $("#display").html("update success");
+     $("#message").addClass("bg-success");
+     $("#display").html("あぷで成功！(｀･ω･´)");
+     $("#message").html("(・∀・)ｲｲﾈ!!");
      })
      .catch(function(error){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-warning");
-     $("#display").html("update fail:" + JSON.stringify(error));
+     $("#message").addClass("bg-warning");
+     $("#display").html("あぷで失敗・・・( ´･ω･`):" + JSON.stringify(error));
+     $("#message").html("(・∀・)ダメ！");
      })
     }
+
     function countData() {
       UTdata.count().fetchAll()
      .then(function(results){
      $("#display").removeClass();
+     $("#message").removeClass();
+
      $("#display").addClass("bg-success");
-     $("#display").html(results.count);
+     $("#message").addClass("bg-success");  
+     $("#message").html("(・∀・)ｲｲﾈ!!");   
+     $("#display").html("このくらいのデータがあるよ！(｀・ω・´) :"+results.count);
      })
      .catch(function(error){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-warning");
-     $("#display").html("count fail:" + JSON.stringify(error));
+     $("#message").addClass("bg-warning");
+     $("#display").html("数分からんわ・・・(´・ω・`):" + JSON.stringify(error));
+     $("#message").html("(・∀・)ダメ！");
      })
     }
+
     function sortData() {
       UTdata.order(key, true).fetchAll()
      .then(function(results){
@@ -102,37 +137,49 @@
      msg += results[i].get(key) + "<br>";
      }
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("text-light");
      $("#display").addClass("bg-primary");
+     $("#message").addClass("text-light");
+     $("#message").addClass("bg-primary");
      $("#display").html(msg);
+     $("#message").html("並び変えるよ！(｀・ω・´)");
+
      })
      .catch(function(error){
      $("#display").removeClass();
+     $("#message").removeClass();
      $("#display").addClass("bg-warning");
-     $("#display").html("delete fail:" + JSON.stringify(error));
+     $("#message").addClass("bg-warning");
+     $("#display").html("?????( ﾟДﾟ):" + JSON.stringify(error));
+     $("#message").html("(・∀・)ダメ！");
      })
 
     }
     </script>
 </head>
 <body>
-  <h1 class="text-light bg-secondary">mbaas sample 03</h1>
+  <h1 class="text-light bg-secondary">データ取り扱い機能</h1>
   <div>
-    <input type="text" id="data" placeholder="スコア"> 
-    <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
+    <input type="text" id="data" placeholder="データ"> 
+    <a onclick="enterData()" class="btn btn-outline-secondary" role="button">データ登録</a>
   </div>
   <div>
-    <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
-    <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">Delete</a>
-    <a onclick="countData()" class="btn btn-outline-primary" role="button">Count</a>
-    <a onclick="sortData()" class="btn btn-outline-primary" role="button">Sort</a>
+    <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">データ表示</a>
+    <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">データ削除</a>
+    <a onclick="countData()" class="btn btn-outline-primary" role="button">データ数</a>
+    <a onclick="sortData()" class="btn btn-outline-primary" role="button">ソート</a>
   </div>
   <div>
-    <input type="text" id="update" placeholder="更新">
-    <a onclick="updateData()" class="btn btn-outline-primary" role="button">Update</a>
+    <input type="text" id="update" placeholder="あぷで">
+    <a onclick="updateData()" class="btn btn-outline-primary" role="button">あっぷでーと</a>
+  </div>
+  <div id="message" class="text-light bg-info">
+   （・ω・）
   </div>
   <div id="display" class="text-light bg-info">
     Results
   </div>
+
 </body>
 </html>
